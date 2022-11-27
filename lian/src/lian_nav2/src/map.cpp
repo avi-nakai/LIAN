@@ -2,7 +2,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "nav_msgs/msg/OccupancyGrid.hpp"
 
-Map::Map() : height(-1), width(-1), start_i(-1), start_j(-1), goal_i(-1), goal_j(-1), Grid(nullptr) {}
+Map::Map() : height(-1), width(-1), Grid(nullptr) {
+    this->declare_parameter("traversable_threshold", 50.0);
+    this->get_parameter("traversable_threshold", traversable_threshold);
+}
 Map::~Map()
 {	
     if(Grid) {
@@ -16,6 +19,7 @@ Map::~Map()
 int * Map::operator [] (int i) {
     return Grid[i];
 }
+
 const int * Map::operator [] (int i) const {
     return Grid[i];
 }
@@ -44,8 +48,8 @@ double Map::getCellSize() const {
     return CellSize;
 }
 
-int cellThreshold(int *cell_data){
-    for (int i = 0; i < width; i++)
+int cellThreshold(int cell_data[width]){
+    for (int i = 0; i < width-1; i++)
     {
         if(cell_data[i] < traversable_threshold){
             cell_data[i] = 0;
@@ -61,31 +65,32 @@ bool Map::getMap(OccupancyGrid occupancyGrid_msg) {
     height = occupancyGrid_msg.info.height;
     if (height <= 0) {
         std::cout << "Error! Wrong 'height' value." << std::endl;
-        return false;}
+        return false;
+    }
     
     width = occupancyGrid_msg.info.width;
     if (width <= 0) {
         std::cout << "Error! Wrong 'width' value." << std::endl;
-        return false;}
+        return false;
+    }
     
     CellSize = occupancyGrid_msg.info.resolution;
     if (CellSize <= 0) {
         std::cout << "Warning! Wrong 'CellSize' value. Set to default value: 1." << std::endl;
-        CellSize = 1;}
-
-    if (!hasGrid && height > 0 && width > 0) {
-        Grid = new int * [height];
-        for (int i = 0; i < height; i++) {
-            Grid[i] = new int[width];
-        }
-        hasGrid = true;
+        CellSize = 1;
     }
-    cellThreshold(occupancyGrid_msg.data);
+
+    Grid = new int * [height];
+    for (int i = 0; i < height; i++) {
+        Grid[i] = new int[width];
+    }
+
+    hasGrid = true;
     
-        for(int i=0; i < height; i++) {
-            for(int j=0; j< width; j++){
-                Grid[i][j] = occupancyGrid_msg.data[width * i + j];
-            }
+    for(int i=0; i < height; i++) {
+        for(int j=0; j< width; j++){
+            Grid[i][j] = cellThreshold(occupancyGrid_msg.data[width * i + j]);
         }
+    }
     
 } 

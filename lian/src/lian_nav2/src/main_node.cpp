@@ -10,12 +10,13 @@ public:
     Lian_node() : Node("lian_node")
     {
         map_subscriber_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
-            "/map", 10, std::bind(&Map::getMap, this, std::placeholders::_1));
+            "/map", 10, std::bind(&Map::getMap, map_));
     }
     
 private:
+    Map map_;
+    rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr map_publisher_;
 };
-rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr map_publisher_;
 
 int main(int argc, char **argv)
 {

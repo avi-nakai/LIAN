@@ -11,8 +11,7 @@
 #include <sstream>
 #include <string>
 
-this->declare_parameter("traversable_threshold", 50.0);
-this->get_parameter("traversable_threshold", traversable_threshold);
+
 
 class Map {
 
