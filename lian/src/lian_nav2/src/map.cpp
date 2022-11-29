@@ -48,16 +48,14 @@ double Map::getCellSize() const {
     return CellSize;
 }
 
-int cellThreshold(int cell_data[width]){
-    for (int i = 0; i < width-1; i++)
-    {
-        if(cell_data[i] < traversable_threshold){
-            cell_data[i] = 0;
-        }
-        else{
-            cell_data[i] = 1;
-        }    
-    } 
+int cellThreshold(int cell_data){
+    
+    if(cell_data < traversable_threshold){
+        cell_data = 0;
+    }
+    else{
+        cell_data = 1;
+    }    
 }
 
 bool Map::getMap(OccupancyGrid occupancyGrid_msg) {
