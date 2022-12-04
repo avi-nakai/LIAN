@@ -4,11 +4,13 @@
 #include "gl_const.h"
 #include "tinyxml/tinyxml.h"
 #include "tinyxml/tinystr.h"
-
+#include "rclcpp/rclcpp.hpp"
+#include "nav_msgs/msg/OccupancyGrid.hpp"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <string>
+
 
 
 class Map {
@@ -21,7 +23,7 @@ private:
 public:
     Map();
     ~Map();
-    bool getMap(const char* FileName);
+    bool getMap(OccupancyGrid occupancyGrid_msg);
 
     bool CellIsTraversable (int curr_i, int curr_j) const;
     bool CellOnGrid (int curr_i, int curr_j) const;
@@ -34,9 +36,6 @@ public:
     int getHeight() const;
     double getCellSize() const;
 
-
-    int start_i, start_j;
-    int goal_i, goal_j;
 };
 
 #endif
