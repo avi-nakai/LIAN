@@ -1,6 +1,5 @@
 #include "liansearch.h"
 
-
 /*
  * // Use for more accurate time calculation
  * #ifdef __linux__
@@ -12,7 +11,6 @@
 */
 
 LianSearch::~LianSearch() {}
-
 
 LianSearch::LianSearch(float angleLimit_, int distance_, float weight_,
                        unsigned int steplimit_, float curvatureHeuristicWeight_, bool postsmoother_,
@@ -392,7 +390,6 @@ double LianSearch::getCost(int a_i, int a_j, int b_i, int b_j) const {
     return sqrt(abs(a_i - b_i) * abs(a_i - b_i) + abs(a_j - b_j) * abs(a_j - b_j));
 }
 
-
 double LianSearch::calcAngle(const Node &dad, const Node &node, const Node &son) const {
     double cos_angle = (node.j - dad.j) * (son.j - node.j) +
                        (node.i - dad.i) * (son.i - node.i);
@@ -464,6 +461,7 @@ SearchResult LianSearch::startSearch(Logger *Log, const Map &map) {
     sresult.nodescreated = open.get_size() + closeSize;
     sresult.numberofsteps = closeSize;
     if (pathFound) {
+        
         sresult.pathlength = curNode.g;
         makePrimaryPath(curNode);
         if (postsmoother) {
@@ -644,7 +642,6 @@ bool LianSearch::expand(const Node curNode, const Map &map) {
     return successors_are_fine;
 }
 
-
 bool LianSearch::tryToDecreaseRadius(Node& curNode, int width) {
     int i;
     for(i = listOfDistancesSize - 1; i >= 0; --i)
@@ -664,7 +661,6 @@ bool LianSearch::tryToDecreaseRadius(Node& curNode, int width) {
     }
     return false;
 }
-
 
 void LianSearch::makePrimaryPath(Node curNode) {
     hppath.push_front(curNode);
@@ -686,7 +682,6 @@ bool LianSearch::checkAngle(const Node &dad, const Node &node, const Node &son) 
     }
     return false;
 }
-
 
 std::list<Node> LianSearch::smoothPath(const std::list<Node>& path, const Map& map) {
     std::list<Node> new_path;
@@ -733,7 +728,6 @@ void LianSearch::makeSecondaryPath() {
     lppath.push_front(hppath.back());
     std::reverse(std::begin(lppath), std::end(lppath));
 }
-
 
 double LianSearch::makeAngles() {
     angles.clear();

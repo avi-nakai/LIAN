@@ -7,7 +7,8 @@
 #include "search.h"
 #include "searchresult.h"
 #include "xmllogger.h"
-
+#include "nav_msgs/msg/Path.hpp"
+#include "geometry_msgs/PoseStamped.hpp"
 
 #include <string>
 
@@ -24,7 +25,7 @@ public:
     void startSearch();
     void printSearchResultsToConsole();
     void saveSearchResultsToLog();
-
+    void saveSearchResultToPathMsg();
 private:
     Map         map;
     Config      config;
