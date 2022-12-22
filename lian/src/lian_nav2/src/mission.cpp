@@ -3,22 +3,23 @@
 #include "std_msgs/msg/string.hpp"
 #include "nav_msgs/msg/Path.hpp"
 #include "geometry_msgs/PoseStamped.hpp"
+#include "nav_msgs/msg/OccupancyGrid.hpp"
 #include "tf2_ros.h"
 #include <list>
 
-Mission::Mission(const char* fName) : fileName(fName), search(nullptr), logger(nullptr) {}
-
+Mission::Mission(OccupancyGrid occupancyGrid_msg, search(nullptr), logger(nullptr) {}
+// just ros msg
 Mission::~Mission() {
     delete search;
     delete logger;
 }
 
 bool Mission::getMap() {
-    return map.getMap(fileName);
+    return map.getMap(occupancyGrid_msg);
 }
 
 bool Mission::getConfig() {
-    return config.getConfig(fileName);
+    return config.getConfig();
 }
 
 void Mission::createSearch() {
@@ -77,31 +78,4 @@ void Mission::saveSearchResultsToLog() {
         logger->writeToLogHpLevel(sr.hppath);
     }
     logger->saveLog();
-}
-
-void Mission::saveSearchResultToPathMsg(){
-    if (sr.pathfound) {
-
-        nav_msgs::msg::Path lian_path;
-        lian_path.header.stamp = node_->now();
-        lian_path.header.frame_id = map;
-
-        for(int node=0; node<len(sr.hppath);node++){
-
-            geometry_msgs::msg::PoseStamped posestamped;
-
-            tf2::Quaternion nodeQuaternion;
-            nodeQuaternion.setRPY(0,0,sr.hppath[node].angle);
-
-            posestamped.pose.position.x = sr.hppath[node].i;
-            posestamped.pose.position.y = sr.hppath[node].j;
-            posestamped.pose.orientation.z = nodeQuaternion.getZ();
-            posestamped.pose.orientation.w = nodeQuaternion.getW();
-            posestamped.header.stamp = node_->now();
-            posestamped.header.frame_id = map;
-
-            lian_path.push_back(posestamped);
-        }     
-    }
-
 }

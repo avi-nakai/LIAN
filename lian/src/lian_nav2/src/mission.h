@@ -9,13 +9,14 @@
 #include "xmllogger.h"
 #include "nav_msgs/msg/Path.hpp"
 #include "geometry_msgs/PoseStamped.hpp"
+#include "nav_msgs/msg/OccupancyGrid.hpp"
 
 #include <string>
 
 class Mission {
 
 public:
-    Mission(const char* fName);
+    Mission(OccupancyGrid occupancyGrid_msg);
     ~Mission();
 
     bool getMap();
@@ -25,15 +26,13 @@ public:
     void startSearch();
     void printSearchResultsToConsole();
     void saveSearchResultsToLog();
-    void saveSearchResultToPathMsg();
+    
 private:
     Map         map;
     Config      config;
 
     Search      *search;
     Logger      *logger;
-
-    const char* fileName;
 
     SearchResult sr;
 };
