@@ -23,14 +23,12 @@ void LianPlaner::configure(
   tf_ = tf;
   planner_->costmap_ = costmap_ros->getCostmap();
   global_frame_ = costmap_ros->getGlobalFrameID();
-  
 }
 
 nav_msgs::msg::Path LianPlaner::createPlan(
   const geometry_msgs::msg::PoseStamped & start,
   const geometry_msgs::msg::PoseStamped & goal)
 {
-  
   searchParams[CNS_TAG_SX] = start.pose.position.x
   searchParams[CNS_TAG_SY] = start.pose.position.y
   searchParams[CNS_TAG_FX] = goal.pose.position.x
@@ -43,8 +41,7 @@ nav_msgs::msg::Path LianPlaner::createPlan(
     lian_path.header.stamp = node_->now();
     lian_path.header.frame_id = map;
 
-    for(int node=0; node<len(sr.hppath);node++){
-
+    for (int node=0; node<len(sr.hppath); node++){
       geometry_msgs::msg::PoseStamped posestamped;
 
       tf2::Quaternion nodeQuaternion;
@@ -60,7 +57,6 @@ nav_msgs::msg::Path LianPlaner::createPlan(
       lian_path.push_back(posestamped);
     }     
   }
-
   return(lian_path)
 } 
 

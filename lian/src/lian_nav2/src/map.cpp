@@ -58,21 +58,21 @@ int cellThreshold(int cell_data){
     }    
 }
 
-bool Map::getMap(OccupancyGrid occupancyGrid_msg) {
+bool Map::getMap(OccupancyGrid camelCase) {
 
-    height = occupancyGrid_msg.info.height;
+    height = camelCase.info.height;
     if (height <= 0) {
         std::cout << "Error! Wrong 'height' value." << std::endl;
         return false;
     }
     
-    width = occupancyGrid_msg.info.width;
+    width = camelCase.info.width;
     if (width <= 0) {
         std::cout << "Error! Wrong 'width' value." << std::endl;
         return false;
     }
     
-    CellSize = occupancyGrid_msg.info.resolution;
+    CellSize = camelCase.info.resolution;
     if (CellSize <= 0) {
         std::cout << "Warning! Wrong 'CellSize' value. Set to default value: 1." << std::endl;
         CellSize = 1;
@@ -87,7 +87,7 @@ bool Map::getMap(OccupancyGrid occupancyGrid_msg) {
     
     for(int i=0; i < height; i++) {
         for(int j=0; j< width; j++){
-            Grid[i][j] = cellThreshold(occupancyGrid_msg.data[width * i + j]);
+            Grid[i][j] = cellThreshold(camelCase.data[width * i + j]);
         }
     }
     
