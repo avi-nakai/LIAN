@@ -3,7 +3,7 @@
 <package format="3">
   <name>lian_nav2</name>
   <version>0.0.0</version>
-  <description>lian_nav2</description>
+  <description>An implementation of the L.I.A.N Algorithm</description>
   <maintainer email="avir@nakairobotics.com">avi</maintainer>
   <license>TODO: License declaration</license>
 
@@ -16,5 +16,7 @@
 
   <export>
     <build_type>ament_cmake</build_type>
+    <nav2_core plugin="${prefix}/lian_planner.xml"/>
   </export>
+
 </package>
