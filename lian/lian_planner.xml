@@ -1,0 +1,5 @@
+<library path="nav2_lian_planner">
+    <class name="nav2_lian_planner/LianPlanner" type="nav2_lian_planner::LianPlanner" base_class_type="nav2_core::GlobalPlanner">
+        <description>An implementation of the L.I.A.N Algorithm</description>
+    </class>
+</library>
